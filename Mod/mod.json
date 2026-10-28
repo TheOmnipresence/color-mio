@@ -1,5 +1,5 @@
 {
-    "id": "io.github.mio-modding.color-mio",
+    "id": "io.github.theomnipresence.color-mio",
     "name": "Color Mio",
     "main": "ColorMio.dll",
     "dependencies": [
