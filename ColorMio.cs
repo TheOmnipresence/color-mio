@@ -10,6 +10,7 @@ namespace ColorMio
     {
         public Vec_float_3 color = default;
         public Vec_float_3 outlineColor = default;
+        public Vec_float_3 intensity = default;
 
         private readonly string[] colors = { "red", "green", "blue" };
 
@@ -34,6 +35,8 @@ namespace ColorMio
             {
                 RegisterRGB("tint", "Tint", 1, "The {0} value of the tentacle color.", tints,
                     (int value, string c) => SetColorChannel(ref color, c, value));
+                RegisterRGB("int", "Intensity", 1, "The {0} intensity value of the tentacle color.", tints,
+                    (int value, string c) => SetColorChannel(ref intensity, c, value));
                 //RegisterRGB("outline", "Outline", 1, "The {0} value of the tentacle outline color.", tints,
                 //    (int value, string c) => SetColorChannel(ref outlineColor, c, value));
             }
@@ -61,9 +64,9 @@ namespace ColorMio
             Tentacle_consts* consts)
         {
             ref var tint = ref consts->tint;
-            tint.x = color.x;
-            tint.y = color.y;
-            tint.z = color.z;
+            tint.x = (color.x / 255) / 0.9411765f * intensity.x;
+            tint.y = (color.y / 255) / 0.83137256f * intensity.y;
+            tint.z = (color.z / 255) / 0.5019608f * intensity.z;
         }
 
         private unsafe void Mio_hair_outline_color_Hook(On.MioGame.GlobalFunctions.game.On_renderer.orig_mio_hair_outline_color orig, Vec_float_3* retBuffer)
@@ -103,11 +106,12 @@ namespace ColorMio
         private void RegisterRGB(string id, string title, int initialValue, string description, 
             Dictionary<string, NumberOption> collection, Action<int, string> changed)
         {
+            if (modPage == null) return;
             foreach (string c in colors)
             {
                 tints[c] = modPage.RegisterNumber(
                     c + "_" + id, title + $" ({c})",
-                    0, 255, 1, 0,
+                    0, 255, 1, initialValue,
                     System.String.Format(description, c)
                     );
                 tints[c].Changed += (int value) => changed(value, c);
