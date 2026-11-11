@@ -72,7 +72,7 @@ namespace ColorMio
             currentTick = (currentTick + 1) % ((rainbowDuration?.Value ?? 5) * 60);
         }
 
-        private Vec_float_3 Hue_to_RGB(float hue)
+        private static Vec_float_3 HueToRGB(float hue)
         {
             // magic incantation to convert hsv to rgb from wikipedia
             static float k_func(float n, float h) => (n + (h / 60f)) % 6f;
@@ -91,7 +91,7 @@ namespace ColorMio
             if (rainbowOption?.Value is true)
             {
                 // the rainbow colour is just a HSV value with S and V set to 1 and hue increasing from 0 to 360
-                var next_colour = Hue_to_RGB(currentTick / ((rainbowDuration?.Value ?? 5) * 60) * 360);
+                var next_colour = HueToRGB(currentTick / ((rainbowDuration?.Value ?? 5) * 60) * 360);
                 tint.x = next_colour.x / 0.9411765f * intensity.x;
                 tint.y = next_colour.y / 0.83137256f * intensity.y;
                 tint.z = next_colour.z / 0.5019608f * intensity.z;
@@ -121,7 +121,7 @@ namespace ColorMio
 
         private readonly Vec_float_3 zeroVect = new Vec_float_3() { Base = new _vec_storage_float_3() { x = 0.0f, y = 0.0f, z = 0.0f } };
 
-        private void SetColorChannel(ref Vec_float_3 color, string channel, int value)
+        private static void SetColorChannel(ref Vec_float_3 color, string channel, int value)
         {
             switch (channel)
             {
