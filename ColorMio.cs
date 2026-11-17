@@ -184,7 +184,7 @@ namespace ColorMio
                 case "rainbow":
                     rgb = HueToRGB(currentTick / maxTick * 360);
                     break;
-                case _:
+                default:
                     rgb = MultiplyVector(Lerp_Gradient(gradientConfig[selectedGradient], currentTick), 1 / 255.0f);
                     break;
             }
