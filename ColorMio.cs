@@ -87,21 +87,19 @@ namespace ColorMio
         {
             ref var tint = ref consts->tint;
 
+            Vec_float_3 rgb = new();
 
             if (rainbowOption?.Value is true)
             {
                 // the rainbow colour is just a HSV value with S and V set to 1 and hue increasing from 0 to 360
-                var next_colour = HueToRGB(currentTick / ((rainbowDuration?.Value ?? 5) * 60) * 360);
-                tint.x = next_colour.x / 0.9411765f * intensity.x;
-                tint.y = next_colour.y / 0.83137256f * intensity.y;
-                tint.z = next_colour.z / 0.5019608f * intensity.z;
+                rgb = HueToRGB(currentTick / ((rainbowDuration?.Value ?? 5) * 60) * 360);
             }
             else
             {
-                tint.x = (color.x / 255) / 0.9411765f * intensity.x;
-                tint.y = (color.y / 255) / 0.83137256f * intensity.y;
-                tint.z = (color.z / 255) / 0.5019608f * intensity.z;
+                rgb = MultiplyVector(color, 1 / 255.0f);
             }
+
+            tint = MultiplyVector(rgb, MultiplyVector(DivideVector(1, origColor), intensity));
         }
 
         private unsafe void Mio_hair_outline_color_Hook(On.MioGame.GlobalFunctions.game.On_renderer.orig_mio_hair_outline_color orig, Vec_float_3* retBuffer)
@@ -119,7 +117,32 @@ namespace ColorMio
             LogMessage("z: " + vec.z.ToString());
         }
 
+        private static Vec_float_3 MultiplyVector(Vec_float_3 vec, float multiplier)
+        {
+            vec.x *= multiplier;
+            vec.y *= multiplier;
+            vec.z *= multiplier;
+            return vec;
+        }
+        private static Vec_float_3 MultiplyVector(Vec_float_3 vec1, Vec_float_3 vec2)
+        {
+            vec1.x *= vec2.x;
+            vec1.y *= vec2.y;
+            vec1.z *= vec2.z;
+            return vec1;
+        }
+
+        private static Vec_float_3 DivideVector(float numerator, Vec_float_3 vec)
+        {
+            vec.x = numerator / vec.x;
+            vec.y = numerator / vec.y;
+            vec.z = numerator / vec.z;
+            return vec;
+        }
+
         private readonly Vec_float_3 zeroVect = new Vec_float_3() { Base = new _vec_storage_float_3() { x = 0.0f, y = 0.0f, z = 0.0f } };
+        private readonly Vec_float_3 origColor = new Vec_float_3() 
+        { Base = new _vec_storage_float_3() { x = 0.9411765f, y = 0.83137256f, z = 0.5019608f } };
 
         private static void SetColorChannel(ref Vec_float_3 color, string channel, int value)
         {
