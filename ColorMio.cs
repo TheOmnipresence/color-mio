@@ -7,8 +7,6 @@ using System.Text.Json;
 
 namespace ColorMio
 {
-    
-
     public class ColorMio : Mod
     {
         public Vec_float_3 color = default;

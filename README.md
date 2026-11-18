@@ -1,4 +1,4 @@
-# Colored Mio
+# Color Mio
 A mod for MIO: Memories in Orbit, changing the color of mio's tentacles.
 
 ## Setup
@@ -19,11 +19,11 @@ A mod for MIO: Memories in Orbit, changing the color of mio's tentacles.
 
 ### Gradients
 
-You can have Mio's tentacles change colour over time by changing the "Gradient" option to the gradient of your choice.
-"rainbow" is available by default, and you can change how fast it changes colours with the "Rainbow duration" setting.
+You can have Mio's tentacles change color over time by changing the "Gradient" option to the gradient of your choice.
+"rainbow" is available by default, and you can change how fast it changes colors with the "Rainbow duration" setting.
 
 You can add custom gradients by adding them to `./modconfig/io.github.mio-modding.color-mio/gradients.json`, which gets created when you load the game with this mod installed.
-A custom gradient is defined with an array of objects with `r`, `g` and `b` properties to define a colour, and a `t` property to determine what time (measured in in-game ticks, 1/60th of a second) the colour will be reached.
+A custom gradient is defined with an array of objects with `r`, `g` and `b` properties to define a color, and a `t` property to determine what time (measured in in-game ticks, 1/60th of a second) the color will be reached.
 
 As an example:
 ```json
@@ -38,4 +38,4 @@ As an example:
 ```
 This gradient starts blue, slowly becomes green over 2 seconds, then turns back to blue over then next 2 seconds.
 
-Gradients override the 'tint' setting, but still get mutltiplied by the 'intensity' setting.
+Gradients override the 'tint' setting, but still get multiplied by the 'intensity' setting.

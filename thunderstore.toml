@@ -1,0 +1,31 @@
+[config]
+schemaVersion = "0.0.1"
+
+[package]
+namespace = "InterestedSC2"
+name = "ColorMio"
+versionNumber = "1.0.2"
+description = "A mod that changes the color of mio's tentacles."
+websiteUrl = "https://github.com/TheOmnipresence/color-mio"
+containsNsfwContent = false
+[package.dependencies]
+MIOModding-ModdingAPI = "2.0.2"
+
+
+[build]
+icon = "./Sprites/image.png"
+readme = "./THUNDERSTORE_README.md"
+outdir = "./build"
+
+[[build.copy]]
+source = "./bin/ColorMio"
+target = ""
+
+
+[publish]
+repository = "https://thunderstore.io"
+communities = [ "mio-memories-in-orbit", ]
+[publish.categories]
+mio-memories-in-orbit = []
+
+
